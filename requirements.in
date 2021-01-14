@@ -1,0 +1,8 @@
+esptool
+loguru
+pygithub
+pyinstaller
+pylint
+requests
+wheel
+wxpython

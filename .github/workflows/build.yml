@@ -9,55 +9,58 @@ jobs:
     runs-on: windows-2019
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Install Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: '3.7'
           architecture: 'x64'
       - name: Install requirements
         run: |
-          pip install -r requirements.txt -r requirements_build.txt
-          pip install -e .
+          pip install -r requirements.txt
       - name: Run PyInstaller
         run: |
-          python -m PyInstaller.__main__ -F -w -n ESPHome-Flasher -i icon.ico esphomeflasher\__main__.py
+          pyinstaller installer-windows.spec
       - uses: actions/upload-artifact@v2
         with:
           name: Windows
-          path: dist/ESPHome-Flasher.exe
+          path: "dist/WLED Flasher.exe"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Spec
+          path: "*.spec"
+
 
   build-windows-x86:
     runs-on: windows-2019
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Install Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: '3.7'
           architecture: 'x86'
       - name: Install requirements
         run: |
-          pip install -r requirements.txt -r requirements_build.txt
-          pip install -e .
+          pip install -r requirements.txt
       - name: Run PyInstaller
         run: |
-          python -m PyInstaller.__main__ -F -w -n ESPHome-Flasher -i icon.ico esphomeflasher\__main__.py
+          pyinstaller installer-windows.spec
       - name: See dist directory
         run: ls dist
       - uses: actions/upload-artifact@v2
         with:
           name: Windows-x86
-          path: dist/ESPHome-Flasher.exe
+          path: "dist/WLED Flasher.exe"
 
   build-ubuntu:
     runs-on: ubuntu-18.04
     steps:
      - name: Checkout
-       uses: actions/checkout@v1
+       uses: actions/checkout@v2
      - name: Install Python
-       uses: actions/setup-python@v1
+       uses: actions/setup-python@v2
        with:
          python-version: '3.7'
      - name: Install dependencies
@@ -68,52 +71,46 @@ jobs:
           wxPython
      - name: Install requirements
        run: |
-         pip install -r requirements.txt -r requirements_build.txt
+         pip install -r requirements.txt
          pip install -e .
      - name: Run PyInstaller
        run: |
-         python -m PyInstaller.__main__ -F -w -n ESPHome-Flasher -i icon.ico esphomeflasher/__main__.py
+         pyinstaller -F -w -n "WLED Flasher" -i data/icons/icon.ico wledflasher/gui.py
      - name: See dist directory
        run: ls dist
      - uses: actions/upload-artifact@v2
        with:
          name: Ubuntu
-         path: dist/ESPHome-Flasher
+         path: "dist/WLED Flasher"
 
 
   build-macos:
-    runs-on: macOS-latest
+    runs-on: macos-10.15
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Install Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: '3.7'
       - name: Install requirements
         run: |
-          pip install -r requirements.txt -r requirements_build.txt
-          pip install -e .
+          pip install -r requirements.txt
       - name: Run PyInstaller
         run: |
-          python -m PyInstaller.__main__ -F -w -n ESPHome-Flasher -i icon.icns esphomeflasher/__main__.py
-      - name: See dist directory
-        run: ls dist
-      - name: Move app
-        run: |
-          mv dist/ESPHome-Flasher.app dist/ESPHome-Flasher-dev-macOS.app
+          pyinstaller installer-macos.spec
       - uses: actions/upload-artifact@v2
         with:
           name: macOS
-          path: dist/
+          path: "dist/"
 
   build-pypi:
     runs-on: ubuntu-18.04
     steps:
      - name: Checkout
-       uses: actions/checkout@v1
+       uses: actions/checkout@v2
      - name: Install Python
-       uses: actions/setup-python@v1
+       uses: actions/setup-python@v2
        with:
          python-version: '3.7'
      - name: Install dependencies
@@ -124,17 +121,14 @@ jobs:
           wxPython
      - name: Install requirements
        run: |
-         pip install -r requirements.txt -r requirements_build.txt
-         pip install -e .
+         pip install -r requirements.txt
      - name: Run sdist
        run: python setup.py sdist bdist_wheel
-     - name: See dist directory
-       run: ls dist
      - uses: actions/upload-artifact@v2
        with:
          name: sdist
-         path: dist/esphomeflasher-*.tar.gz
+         path: dist/wledflasher-*.tar.gz
      - uses: actions/upload-artifact@v2
        with:
          name: bdist_wheel
-         path: dist/esphomeflasher-*.whl
+         path: dist/wledflasher-*.whl

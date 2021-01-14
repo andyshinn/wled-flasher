@@ -1,46 +1,42 @@
-# ESPHome-Flasher
+# WLED Flasher
 
-ESPHome-Flasher is a utility app for the [ESPHome](https://esphome.io/)
-framework and is designed to make flashing ESPs with ESPHome as simple as possible by:
+WLED Flasher is a utility app for the [WLED](https://github.com/Aircoookie/WLED) firmware and is designed to make flashing ESPs with WLED as simple as possible by:
 
  * Having pre-built binaries for most operating systems.
- * Hiding all non-essential options for flashing. All necessary options for flashing
-   (bootloader, flash mode) are automatically extracted from the binary.
+ * Hiding all non-essential options for flashing. All necessary options for flashing (bootloader, flash mode) are automatically extracted from the binary.
 
-This project was originally intended to be a simple command-line tool,
-but then I decided that a GUI would be nice. As I don't like writing graphical
-front end code, the GUI largely is based on the
-[NodeMCU PyFlasher](https://github.com/marcelstoer/nodemcu-pyflasher)
+This project was originally intended to fix some ESPHome Flasher issues when flashing WLED firmware. It is a fork of [ESPHome-Flasher](https://github.com/esphome/esphome-flasher) which in turn is a fork of the [NodeMCU PyFlasher](https://github.com/marcelstoer/nodemcu-pyflasher)
 project.
 
-The flashing process is done using the [esptool](https://github.com/espressif/esptool)
-library by espressif.
+The flashing process is handled by Espressif [esptool](https://github.com/espressif/esptool).
 
 ## Installation
 
-Es doesn't have to be installed, just double-click it and it'll start.
-Check the [releases section](https://github.com/esphome/esphome-flasher/releases)
-for downloads for your platform.
-
-## Installation Using `pip`
-
-If you want to install this application from `pip`:
-
-- Install Python 3.x
-- Install [wxPython 4.x](https://wxpython.org/) manually or run `pip3 install wxpython` (see also linux notes below)
-- Install this project using `pip3 install esphomeflasher`
-- Start the GUI using `esphomeflasher`. Alternatively, you can use the command line interface (
-  type `esphomeflasher -h` for info)
+The utility doesn't have have an installer. Just double-click it to get started. Check the [releases section](https://github.com/andyshinn/wled-flasher/releases) to download for your platform.
 
 ## Build it yourself
 
 If you want to build this application yourself you need to:
 
 - Install Python 3.x
-- Install [wxPython 4.x](https://wxpython.org/) manually or run `pip3 install wxpython`
-- Download this project and run `pip3 install -e .` in the project's root.
-- Start the GUI using `esphomeflasher`. Alternatively, you can use the command line interface (
-  type `esphomeflasher -h` for info)
+- `pip install requirements.txt`
+- Start the GUI using `wledflasher`. Alternatively, you can use the command line interface (
+  type `wledflasher -h` for info)
+
+### macOS
+
+`pyinstaller installer-macos.spec`
+
+### Windows
+
+1. Start up VM
+2. Install Python (3) from App Store
+3. Download esphome-flasher from GitHub
+4. `pip install -e.` and `pip install pyinstaller`
+5. Check with `python -m wledflasher.__main__`
+6. `python -m PyInstaller.__main__ -F -w -n WLED Flasher -i icon.ico wledflasher\__main__.py`
+7. Go to `dist` folder, check WLED Flasher.exe works.
+
 
 
 ## Linux Notes
